@@ -16,5 +16,10 @@ namespace ShopApplication.Service
         {
             return _productRepository.GetAll();
         }
+
+        public void Add(Product product)
+        {
+            _productRepository.Add(product);
+        }
     }
 }

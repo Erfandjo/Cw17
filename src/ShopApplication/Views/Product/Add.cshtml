@@ -1,0 +1,47 @@
+﻿@model ProductViewModel
+
+<div class="container px-5 my-5">
+    <form method="post" asp-action="AddProduct">
+        <div class="form-floating mb-3">
+            <input class=" form-control" name="name" type="text" placeholder="Name" data-sb-validations="required" />
+            <label for="name">Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class=" form-control" name="price" type="text" placeholder="Price" data-sb-validations="required" />
+            <label for="price">Price</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class=" form-control" name="description" type="text" placeholder="Description" data-sb-validations="required" />
+            <label for="description">Description</label>
+        </div>
+
+        <div>
+        <div class="form-floating mb-3">
+                <select name="categoryName" class="form-select" id="validationCustom04" required>
+                <option selected disabled value="">Category</option>
+                    @foreach (var category in @Model.Categories)
+                    {
+                        <option>@category.Name</option>
+                    }
+                   
+            </select>
+            <div class="invalid-feedback">
+                Please select a valid state.
+            </div>
+        </div>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+
+        </div>
+
+
+    </form>
+
+
+
+
+
+</div>

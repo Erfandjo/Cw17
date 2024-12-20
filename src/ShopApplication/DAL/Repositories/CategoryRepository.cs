@@ -11,9 +11,23 @@ namespace ShopApplication.DAL.Repositories
         {
             _appDbContext = new AppDbContext();
         }
+
+        public void Add(Category category)
+        {
+            if(category is not null)
+            {
+                _appDbContext.Categories.Add(category);
+                _appDbContext.SaveChanges();
+            }
+        }
+
         public List<Category> GetAll()
         {
             return _appDbContext.Categories.ToList();
+        }
+        public Category GetByName(string name)
+        {
+            return _appDbContext.Categories.FirstOrDefault(x => x.Name == name);
         }
     }
 }

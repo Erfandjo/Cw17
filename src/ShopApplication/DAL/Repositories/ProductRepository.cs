@@ -12,6 +12,16 @@ namespace ShopApplication.DAL.Repositories
         {
             _appDbContext = new AppDbContext();
         }
+
+        public void Add(Product product)
+        {
+            if (product is not null)
+            {
+                _appDbContext.Products.Add(product);
+                _appDbContext.SaveChanges();
+            }
+        }
+
         public List<Product> GetAll()
         {
             return _appDbContext.Products.Include(x => x.category).ToList();

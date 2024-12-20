@@ -5,5 +5,6 @@ namespace ShopApplication.Contracts.Repositories
     public interface IProductRepository
     {
         public List<Product> GetAll();
+        public void Add(Product product);
     }
 }
