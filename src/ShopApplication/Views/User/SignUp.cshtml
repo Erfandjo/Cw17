@@ -1,0 +1,27 @@
+﻿<div class="container px-5 my-5">
+    <p style="text-align:center; color:blueviolet; font-size:20px; margin-bottom:80px;">Sign Up</p>
+
+
+
+
+    <form method="post" asp-action="SignUpUser">
+        <div class="form-floating mb-3">
+            <input class=" form-control" name="userName" type="text" placeholder="UserName" data-sb-validations="required" />
+            <label for="userName">UserName</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class=" form-control" name="password" type="text" placeholder="Password" data-sb-validations="required" />
+            <label for="password">Password</label>
+
+        </div>
+        <div class="d-grid mb-3">
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+        </div>
+
+    </form>
+    <div style="text-align:center; font-size:16px;">
+        <p>
+             Already have an account ? <a asp-controller="User" asp-action="Login"> Login </a>
+        </p>
+    </div>
+</div>

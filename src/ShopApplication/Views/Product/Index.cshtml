@@ -17,17 +17,25 @@
                 <th scope="col">Price</th>
                 <th scope="col">Description</th>
                 <th scope="col">Category Name</th>
+                <th scope="col">Operation</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var product in @Model)
             {
                 <tr>
-            <th scope="row">@product.Id</th>
-            <td>@product.Name</td>
-            <td>@product.Price</td>
-            <td>@product.Description</td>
-            <td>@product.category.Name</td>
+                    <th scope="row">@product.Id</th>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Description</td>
+                    <td>@product.Category.Name</td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Update" asp-route-id="@product.Id" class="btn btn-warning" type="button">Update</a>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" type="button">Delete</a>
+                        <a asp-controller="Product" asp-action="Preview" asp-route-id="@product.Id" class="btn btn-success" type="button">Preview</a>
+                    </td>
+                   
+
                 </tr>
             }
         </tbody>

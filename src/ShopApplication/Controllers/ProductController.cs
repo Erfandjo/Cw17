@@ -3,40 +3,111 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ShopApplication.Contracts.Services;
 using ShopApplication.Models;
 using ShopApplication.Service;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ShopApplication.Controllers
 {
     public class ProductController : Controller
     {
-        IProductService ProductService;
-        ICategoryService CategoryService;
+        IProductService productService;
+        ICategoryService categoryService;
         public ProductController()
         {
-            ProductService = new ProductService();
-            CategoryService = new CategoryService();
+            productService = new ProductService();
+            categoryService = new CategoryService();
         }
+
         public IActionResult Index()
         {
-            return View(ProductService.Get());
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                return View(productService.Get());
+            }
+            return RedirectToAction("Login", "User");
         }
         public IActionResult Add()
         {
-            return View(CategoryService.Get());
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                return View(categoryService.Get());
+            }
+            return RedirectToAction("Login", "User");
+            
         }
         public IActionResult AddProduct(string name , int price , string description , string categoryName)
         {
-            var category = CategoryService.GetByName(categoryName);
-            Product product = new Product()
+            if (Storage.CurrentUser.OnlineUser is not null)
             {
-                CategoryId = category.Id,
-                Name = name,
-                Price = price,
-                Description = description
-            };
+                var category = categoryService.GetByName(categoryName);
+                Product product = new Product()
+                {
+                    CategoryId = category.Id,
+                    Name = name,
+                    Price = price,
+                    Description = description
+                };
 
-            ProductService.Add(product);
+                productService.Add(product);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "User");
+           
         }
+
+        public IActionResult Delete(int id)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                productService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "User");
+           
+        }
+
+        public IActionResult Update(int id)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                var p = productService.GetForId(id);
+                ProductUpdateViewModel model = new ProductUpdateViewModel()
+                {
+                    Id = id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    Category = p.Category,
+                    Categories = categoryService.Get()
+
+                };
+                return View(model);
+            }
+            return RedirectToAction("Login", "User");
+          
+        }
+        public IActionResult UpdateProduct(int id , string name, int price, string description, string categoryName)
+        {
+            
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                var category = categoryService.GetByName(categoryName);
+                productService.Update(id, name, price, description, category);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "User");
+        }
+
+        public IActionResult Preview(int id)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                var p = productService.GetForId(id);
+                return View(p);
+            }
+            return RedirectToAction("Login", "User");
+          
+        }
+
     }
 }

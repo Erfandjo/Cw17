@@ -8,29 +8,88 @@ namespace ShopApplication.Controllers
 {
     public class CategoryController : Controller
     {
-        ICategoryService CategoryService;
+        ICategoryService categoryService;
         public CategoryController()
         {
-            CategoryService = new CategoryService();
+            categoryService = new CategoryService();
         }
         public IActionResult Index()
         {
-            return View(CategoryService.Get());
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                return View(categoryService.Get());
+            }
+            return RedirectToAction("Login", "User");
+            
         }
 
         public IActionResult Add()
         {
-            return View();
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "User");
+            
         }
         [HttpPost]
         public IActionResult AddCategory(string name)
         {
-            Category category = new Category()
+           
+            if (Storage.CurrentUser.OnlineUser is not null)
             {
-                Name = name
-            };
-             CategoryService.Add(category);
-            return RedirectToAction("Index");
+                Category category = new Category()
+                {
+                    Name = name
+                };
+                categoryService.Add(category);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "User");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                categoryService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "User");
+           
+        }
+
+        public IActionResult Update(int id)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                var p = categoryService.GetForId(id);
+                return View(p);
+            }
+            return RedirectToAction("Login", "User");
+            
+        }
+
+        public IActionResult UpdateCategory(int id, string name)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                categoryService.Update(id, name);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "User");
+           
+        }
+
+        public IActionResult Preview(int id)
+        {
+            if (Storage.CurrentUser.OnlineUser is not null)
+            {
+                var p = categoryService.GetForId(id);
+                return View(p);
+            }
+            return RedirectToAction("Login", "User");
+            
         }
     }
 }

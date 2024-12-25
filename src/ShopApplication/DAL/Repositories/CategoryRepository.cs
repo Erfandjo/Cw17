@@ -1,4 +1,5 @@
-﻿using ShopApplication.AppdbContext;
+﻿using Microsoft.EntityFrameworkCore;
+using ShopApplication.AppdbContext;
 using ShopApplication.Contracts.Repositories;
 using ShopApplication.Models;
 
@@ -28,6 +29,29 @@ namespace ShopApplication.DAL.Repositories
         public Category GetByName(string name)
         {
             return _appDbContext.Categories.FirstOrDefault(x => x.Name == name);
+        }
+        public void Delete(int id)
+        {
+            var c = _appDbContext.Categories.FirstOrDefault(x => x.Id == id);
+            _appDbContext.Categories.Remove(c);
+            _appDbContext.SaveChanges();
+        }
+
+        public Category GetForId(int id)
+        {
+            var c = _appDbContext.Categories.FirstOrDefault(x => x.Id == id);
+            if (c is not null)
+            {
+                return c;
+            }
+            throw new Exception();
+        }
+
+        public void Update(int id, string name)
+        {
+            var c = _appDbContext.Categories.FirstOrDefault(x => x.Id == id);
+            c.Name = name;
+            _appDbContext.SaveChanges();
         }
     }
 }

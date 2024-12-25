@@ -1,4 +1,4 @@
-﻿@model ProductViewModel
+﻿@model List<Category>
 
 <div class="container px-5 my-5">
     <form method="post" asp-action="AddProduct">
@@ -21,7 +21,7 @@
         <div class="form-floating mb-3">
                 <select name="categoryName" class="form-select" id="validationCustom04" required>
                 <option selected disabled value="">Category</option>
-                    @foreach (var category in @Model.Categories)
+                    @foreach (var category in @Model)
                     {
                         <option>@category.Name</option>
                     }
@@ -37,11 +37,5 @@
 
         </div>
 
-
     </form>
-
-
-
-
-
 </div>

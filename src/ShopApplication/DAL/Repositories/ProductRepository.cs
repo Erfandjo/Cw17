@@ -24,7 +24,34 @@ namespace ShopApplication.DAL.Repositories
 
         public List<Product> GetAll()
         {
-            return _appDbContext.Products.Include(x => x.category).ToList();
+            return _appDbContext.Products.Include(x => x.Category).ToList();
+        }
+
+        public void Delete(int id)
+        {
+            var p = _appDbContext.Products.FirstOrDefault(x => x.Id == id);
+            _appDbContext.Products.Remove(p);
+            _appDbContext.SaveChanges();
+        }
+
+        public Product GetForId(int id)
+        {
+            var p = _appDbContext.Products.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
+            if (p is not null)
+            {
+                return p;
+            }
+            throw new Exception();
+        }
+
+        public void Update(int id, string name, int price, string description, Category category)
+        {
+            var p = _appDbContext.Products.FirstOrDefault(x => x.Id == id);
+            p.Name = name;
+            p.Price = price;
+            p.Description = description;
+            p.CategoryId = category.Id;
+            _appDbContext.SaveChanges();
         }
     }
 }

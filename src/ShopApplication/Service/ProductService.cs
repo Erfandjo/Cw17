@@ -21,5 +21,20 @@ namespace ShopApplication.Service
         {
             _productRepository.Add(product);
         }
+
+        public void Delete(int id)
+        {
+            _productRepository.Delete(id);
+        }
+
+        public Product GetForId(int id)
+        {
+           return _productRepository.GetForId(id);
+        }
+
+        public void Update(int id, string name, int price, string description, Category category)
+        {
+            _productRepository.Update(id , name , price , description , category);
+        }
     }
 }

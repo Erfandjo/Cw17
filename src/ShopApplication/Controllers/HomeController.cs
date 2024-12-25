@@ -15,7 +15,7 @@ namespace ShopApplication.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(Storage.CurrentUser.OnlineUser);
         }
 
         public IActionResult Privacy()

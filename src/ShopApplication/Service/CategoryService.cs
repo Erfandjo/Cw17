@@ -27,5 +27,19 @@ namespace ShopApplication.Service
         {
             return _categoryRepository.GetByName(name);
         }
+        public void Delete(int id)
+        {
+            _categoryRepository.Delete(id);
+        }
+
+        public Category GetForId(int id)
+        {
+            return _categoryRepository.GetForId(id);
+        }
+
+        public void Update(int id, string name)
+        {
+            _categoryRepository.Update(id, name);
+        }
     }
 }
